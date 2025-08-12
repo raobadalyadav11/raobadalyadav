@@ -5,6 +5,10 @@ import { useSession, signIn } from 'next-auth/react';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import Dashboard from '@/components/admin/Dashboard';
 import ContactsManager from '@/components/admin/ContactsManager';
+import BlogsManager from '@/components/admin/BlogsManager';
+import ServiceRequestsManager from '@/components/admin/ServiceRequestsManager';
+import NewsletterManager from '@/components/admin/NewsletterManager';
+import Settings from '@/components/admin/Settings';
 import TiptapEditor from '@/components/TiptapEditor';
 import { motion } from 'framer-motion';
 import { Save, Eye, ArrowLeft } from 'lucide-react';
@@ -113,8 +117,16 @@ export default function AdminPage() {
     switch (activeTab) {
       case 'dashboard':
         return <Dashboard />;
+      case 'blogs':
+        return <BlogsManager />;
       case 'contacts':
         return <ContactsManager />;
+      case 'services':
+        return <ServiceRequestsManager />;
+      case 'newsletter':
+        return <NewsletterManager />;
+      case 'settings':
+        return <Settings />;
       case 'create-blog':
         return (
           <div className="p-6">
