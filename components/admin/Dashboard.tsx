@@ -2,12 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Mail, Users, Eye, TrendingUp, Calendar } from 'lucide-react';
+import { FileText, Mail, Users, Eye, TrendingUp, Calendar, Globe, BarChart3, MessageSquare } from 'lucide-react';
 
 interface DashboardStats {
   totalBlogs: number;
   totalContacts: number;
   totalViews: number;
+  totalVisitors: number;
+  todayVisitors: number;
+  uniqueVisitors: number;
+  totalServiceRequests: number;
+  totalNewsletterSubs: number;
   recentBlogs: any[];
   recentContacts: any[];
 }
@@ -17,6 +22,11 @@ export default function Dashboard() {
     totalBlogs: 0,
     totalContacts: 0,
     totalViews: 0,
+    totalVisitors: 0,
+    todayVisitors: 0,
+    uniqueVisitors: 0,
+    totalServiceRequests: 0,
+    totalNewsletterSubs: 0,
     recentBlogs: [],
     recentContacts: []
   });
@@ -28,13 +38,19 @@ export default function Dashboard() {
 
   const fetchDashboardData = async () => {
     try {
-      const [blogsRes, contactsRes] = await Promise.all([
+      const [blogsRes, contactsRes, analyticsRes, servicesRes, newsletterRes] = await Promise.all([
         fetch('/api/blogs?limit=5'),
-        fetch('/api/contact')
+        fetch('/api/contact'),
+        fetch('/api/admin/analytics'),
+        fetch('/api/service-requests'),
+        fetch('/api/newsletter')
       ]);
 
       const blogsData = await blogsRes.json();
       const contactsData = contactsRes.ok ? await contactsRes.json() : { contacts: [] };
+      const analyticsData = analyticsRes.ok ? await analyticsRes.json() : { overview: {} };
+      const servicesData = servicesRes.ok ? await servicesRes.json() : [];
+      const newsletterData = newsletterRes.ok ? await newsletterRes.json() : [];
 
       const totalViews = blogsData.blogs?.reduce((sum: number, blog: any) => sum + (blog.views || 0), 0) || 0;
 
@@ -42,6 +58,11 @@ export default function Dashboard() {
         totalBlogs: blogsData.pagination?.total || 0,
         totalContacts: contactsData.contacts?.length || 0,
         totalViews,
+        totalVisitors: analyticsData.overview?.totalVisitors || 0,
+        todayVisitors: analyticsData.overview?.todayVisitors || 0,
+        uniqueVisitors: analyticsData.overview?.uniqueVisitors || 0,
+        totalServiceRequests: servicesData.length || 0,
+        totalNewsletterSubs: newsletterData.length || 0,
         recentBlogs: blogsData.blogs || [],
         recentContacts: contactsData.contacts?.slice(0, 5) || []
       });
@@ -53,10 +74,14 @@ export default function Dashboard() {
   };
 
   const statCards = [
-    { title: 'Total Blogs', value: stats.totalBlogs, icon: FileText, color: 'blue' },
-    { title: 'Contact Messages', value: stats.totalContacts, icon: Mail, color: 'green' },
-    { title: 'Total Views', value: stats.totalViews, icon: Eye, color: 'purple' },
-    { title: 'This Month', value: new Date().getDate(), icon: Calendar, color: 'orange' }
+    { title: 'Total Visitors', value: stats.totalVisitors, icon: Globe, color: 'blue' },
+    { title: 'Today\'s Visitors', value: stats.todayVisitors, icon: TrendingUp, color: 'green' },
+    { title: 'Unique Visitors', value: stats.uniqueVisitors, icon: Users, color: 'purple' },
+    { title: 'Blog Posts', value: stats.totalBlogs, icon: FileText, color: 'orange' },
+    { title: 'Contact Messages', value: stats.totalContacts, icon: Mail, color: 'red' },
+    { title: 'Service Requests', value: stats.totalServiceRequests, icon: BarChart3, color: 'indigo' },
+    { title: 'Newsletter Subs', value: stats.totalNewsletterSubs, icon: MessageSquare, color: 'teal' },
+    { title: 'Total Views', value: stats.totalViews, icon: Eye, color: 'pink' }
   ];
 
   if (loading) {

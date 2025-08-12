@@ -95,7 +95,7 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-col sm:flex-row flex-wrap gap-4 mb-8"
           >
-            <Link href="/BadalKumarResume.pdf" scroll={false}>
+            <Link href="/BadalKumarResume.pdf" scroll={false} target="_blank" rel="noopener noreferrer">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

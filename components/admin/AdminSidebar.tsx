@@ -11,7 +11,12 @@ import {
   LogOut,
   PenTool,
   MessageSquare,
-  Briefcase
+  Briefcase,
+  BarChart3,
+  Globe,
+  Database,
+  Shield,
+  Archive
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 
@@ -22,12 +27,18 @@ interface AdminSidebarProps {
 
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
   { id: 'blogs', label: 'Blog Posts', icon: FileText },
   { id: 'create-blog', label: 'Create Blog', icon: PenTool },
   { id: 'contacts', label: 'Contact Messages', icon: Mail },
   { id: 'services', label: 'Service Requests', icon: Briefcase },
   { id: 'newsletter', label: 'Newsletter', icon: MessageSquare },
-  { id: 'settings', label: 'Settings', icon: Settings },
+  { id: 'users', label: 'Users', icon: Users },
+  { id: 'media', label: 'Media Library', icon: Database },
+  { id: 'site-settings', label: 'Site Settings', icon: Globe },
+  { id: 'backup', label: 'Backup & Restore', icon: Archive },
+  { id: 'logs', label: 'System Logs', icon: Shield },
+  { id: 'settings', label: 'Account Settings', icon: Settings },
 ];
 
 export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarProps) {

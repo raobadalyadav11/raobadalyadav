@@ -9,6 +9,12 @@ import BlogsManager from '@/components/admin/BlogsManager';
 import ServiceRequestsManager from '@/components/admin/ServiceRequestsManager';
 import NewsletterManager from '@/components/admin/NewsletterManager';
 import Settings from '@/components/admin/Settings';
+import Analytics from '@/components/admin/Analytics';
+import SiteSettings from '@/components/admin/SiteSettings';
+import UsersManager from '@/components/admin/UsersManager';
+import MediaLibrary from '@/components/admin/MediaLibrary';
+import BackupRestore from '@/components/admin/BackupRestore';
+import SystemLogs from '@/components/admin/SystemLogs';
 import TiptapEditor from '@/components/TiptapEditor';
 import { motion } from 'framer-motion';
 import { Save, Eye, ArrowLeft } from 'lucide-react';
@@ -127,6 +133,18 @@ export default function AdminPage() {
         return <NewsletterManager />;
       case 'settings':
         return <Settings />;
+      case 'analytics':
+        return <Analytics />;
+      case 'site-settings':
+        return <SiteSettings />;
+      case 'users':
+        return <UsersManager />;
+      case 'media':
+        return <MediaLibrary />;
+      case 'backup':
+        return <BackupRestore />;
+      case 'logs':
+        return <SystemLogs />;
       case 'create-blog':
         return (
           <div className="p-6">
@@ -254,6 +272,10 @@ export default function AdminPage() {
           </div>
         );
       
+      case 'users':
+      case 'media':
+      case 'backup':
+      case 'logs':
       default:
         return (
           <div className="p-6">

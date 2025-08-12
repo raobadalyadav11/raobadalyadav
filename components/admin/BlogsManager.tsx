@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Edit, Trash2, Eye, Search, Plus } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 interface Blog {
   _id: string;
@@ -41,19 +42,22 @@ export default function BlogsManager() {
     }
   };
 
-  const deleteBlog = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this blog post?')) return;
+  const deleteBlog = async (slug: string, id: string) => {
+    if (!window.confirm('Are you sure you want to delete this blog post?')) return;
     
     try {
-      const response = await fetch(`/api/blogs/${id}`, {
+      const response = await fetch(`/api/blogs/${slug}`, {
         method: 'DELETE',
       });
       
       if (response.ok) {
         setBlogs(blogs.filter(b => b._id !== id));
+        toast.success('Blog deleted successfully');
+      } else {
+        toast.error('Failed to delete blog');
       }
     } catch (error) {
-      console.error('Failed to delete blog:', error);
+      toast.error('Failed to delete blog');
     }
   };
 
@@ -172,7 +176,7 @@ export default function BlogsManager() {
                         <Eye className="w-4 h-4" />
                       </a>
                       <button
-                        onClick={() => deleteBlog(blog._id)}
+                        onClick={() => deleteBlog(blog.slug, blog._id)}
                         className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
