@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Newsletter from '@/models/Newsletter';
+import { sendNewsletterWelcome } from '@/lib/email';
 
 export async function GET(request: NextRequest) {
   try {
@@ -52,6 +53,9 @@ export async function POST(request: NextRequest) {
     });
 
     await subscriber.save();
+
+    // Send welcome email
+    await sendNewsletterWelcome(email, name);
 
     return NextResponse.json(
       { message: 'Subscribed successfully' },

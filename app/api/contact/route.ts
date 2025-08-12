@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Contact from '@/models/Contact';
+import { sendContactConfirmation } from '@/lib/email';
 
 export async function GET(request: NextRequest) {
   try {
@@ -41,6 +42,9 @@ export async function POST(request: NextRequest) {
     });
 
     await contact.save();
+
+    // Send confirmation email
+    await sendContactConfirmation(email, name);
 
     return NextResponse.json(
       { message: 'Message sent successfully' },

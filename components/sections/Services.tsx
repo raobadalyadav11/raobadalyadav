@@ -99,13 +99,14 @@ export default function Services() {
                 ))}
               </ul>
 
-              <motion.button
+              <motion.a
+                href="/services"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-6 w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition-shadow duration-300"
+                className="mt-6 w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition-shadow duration-300 inline-block text-center"
               >
                 Get Started
-              </motion.button>
+              </motion.a>
             </motion.div>
           ))}
         </div>

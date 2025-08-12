@@ -1,5 +1,7 @@
 {
-  "name": "nextjs",
+  "name": "raobadalyadav-portfolio",
+  "description": "A portfolio make in nextjs,tailwind,typescript,tiptap editor, nodemailer, next-auth and mongodb",
+  "license": "MIT",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,6 +18,7 @@
     "@tiptap/react": "^2.1.13",
     "@tiptap/starter-kit": "^2.1.13",
     "@types/node": "20.6.2",
+    "@types/nodemailer": "^6.4.14",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
@@ -29,6 +32,7 @@
     "mongoose": "^8.0.3",
     "next": "13.5.1",
     "next-auth": "^4.24.11",
+    "nodemailer": "^6.10.1",
     "postcss": "8.4.30",
     "react": "18.2.0",
     "react-dom": "18.2.0",

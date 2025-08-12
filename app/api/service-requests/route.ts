@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import ServiceRequest from '@/models/ServiceRequest';
+import { sendServiceRequestConfirmation } from '@/lib/email';
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,6 +45,9 @@ export async function POST(request: NextRequest) {
     });
 
     await serviceRequest.save();
+
+    // Send confirmation email
+    await sendServiceRequestConfirmation(email, name, service);
 
     return NextResponse.json(
       { message: 'Service request submitted successfully' },

@@ -24,11 +24,11 @@ export async function GET(
 
     // Get related posts
     const relatedPosts = await Blog.find({
-      _id: { $ne: blog._id },
+      _id: { $ne: (blog as any)._id },
       published: true,
       $or: [
-        { category: blog.category },
-        { tags: { $in: blog.tags } }
+        { category: (blog as any).category },
+        { tags: { $in: (blog as any).tags } }
       ]
     })
     .limit(3)
