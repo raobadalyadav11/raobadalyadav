@@ -84,6 +84,14 @@ export async function POST(request: NextRequest) {
       featured = false
     } = body;
 
+    // Validation
+    if (!title || !excerpt || !content || !image || !category) {
+      return NextResponse.json(
+        { error: 'Missing required fields: title, excerpt, content, image, category' },
+        { status: 400 }
+      );
+    }
+
     let slug = title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
@@ -95,7 +103,7 @@ export async function POST(request: NextRequest) {
       slug = `${slug}-${Date.now()}`;
     }
 
-    const readTime = Math.ceil(content.split(' ').length / 200) + ' min read';
+    const readTime = Math.ceil(content.replace(/<[^>]*>/g, '').split(' ').length / 200) + ' min read';
 
     const blog = new Blog({
       title,
@@ -103,12 +111,12 @@ export async function POST(request: NextRequest) {
       excerpt,
       content,
       image,
-      tags,
+      tags: Array.isArray(tags) ? tags : [],
       category,
       readTime,
       metaTitle: metaTitle || title,
       metaDescription: metaDescription || excerpt,
-      keywords: keywords || tags,
+      keywords: Array.isArray(keywords) ? keywords : (Array.isArray(tags) ? tags : []),
       featured,
       published: true,
     });
@@ -117,8 +125,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(blog, { status: 201 });
   } catch (error) {
+    console.error('Blog creation error:', error);
     return NextResponse.json(
-      { error: 'Failed to create blog' },
+      { error: error instanceof Error ? error.message : 'Failed to create blog' },
       { status: 500 }
     );
   }

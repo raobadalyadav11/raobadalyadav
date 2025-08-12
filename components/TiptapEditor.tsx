@@ -5,7 +5,17 @@ import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import { lowlight } from 'lowlight';
+import { createLowlight } from 'lowlight';
+import js from 'highlight.js/lib/languages/javascript';
+import ts from 'highlight.js/lib/languages/typescript';
+import html from 'highlight.js/lib/languages/xml';
+import css from 'highlight.js/lib/languages/css';
+
+const lowlight = createLowlight();
+lowlight.register('javascript', js);
+lowlight.register('typescript', ts);
+lowlight.register('html', html);
+lowlight.register('css', css);
 import { Bold, Italic, Code, Link as LinkIcon, Image as ImageIcon, List, ListOrdered } from 'lucide-react';
 
 interface TiptapEditorProps {
@@ -36,6 +46,7 @@ export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
       }),
     ],
     content,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
